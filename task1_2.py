@@ -1,15 +1,28 @@
 # Версия 2 - c разделением функции <ask_and_make_move()> на <ask_move()> и <make_move()>
 
+from colorama import init
+init()
+from colorama import Fore, Back, Style
+
 def draw_board(board):
   # запустить цикл, который проходит по всем 3 строкам доски
   for i in range(3):
+    #if i < 2:
+      #print('\n')
     # поставить разделители значений в строке
-    print(" | ".join(board[i]))
+    for j in range(3):
+      if board[j][i] == 'O':
+        print(Fore.RED + str(board[j][i]), end = " | ")
+      if board[j][i] == 'X':
+        print(Fore.MAGENTA + str(board[j][i]), end = " | ")
+      else:
+        print(str(board[j][i]), end = " | ")        
+    #print(Fore.MAGENTA + Back.BLUE + " | ".join(board[i]))
     if i == 2:    # Убераем лишнее подчёркивание
       print('\n')    # Делаем отступ для красоты
       break
     # поставить разделители строк
-    print("---------")
+    print("\n", "---------")
 
 def ask_and_make_move(player, board):
     x, y = ask_move(player, board)
