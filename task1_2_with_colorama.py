@@ -1,28 +1,30 @@
-# Версия 2 - c разделением функции <ask_and_make_move()> на <ask_move()> и <make_move()>
+# Версия 2.2 - c разделением функции <ask_and_make_move()> на <ask_move()> и <make_move()>
+# И с colorama
 
-from colorama import init
-init()
-from colorama import Fore, Back, Style
+from colorama import init, Fore, Back, Style
+init(autoreset=True)
 
 def draw_board(board):
-  # запустить цикл, который проходит по всем 3 строкам доски
+  # запустить двойной цикл, рисующий карту "поячеечно"
   for i in range(3):
-    #if i < 2:
-      #print('\n')
-    # поставить разделители значений в строке
     for j in range(3):
       if board[j][i] == 'O':
-        print(Fore.RED + str(board[j][i]), end = " | ")
-      if board[j][i] == 'X':
-        print(Fore.MAGENTA + str(board[j][i]), end = " | ")
+        print(Style.BRIGHT + Back.BLUE + Fore.GREEN + str(board[j][i]), end = "")
+        if j != 2:
+          print('', end = " | ")
+      elif board[j][i] == 'X':
+        print(Style.BRIGHT + Back.BLUE + Fore.MAGENTA + str(board[j][i]), end = "")
+        if j != 2:  
+          print('', end = " | ")
+      elif  j != 2:
+        print(Back.BLUE + str(board[j][i]), end = " | ")
       else:
-        print(str(board[j][i]), end = " | ")        
-    #print(Fore.MAGENTA + Back.BLUE + " | ".join(board[i]))
+        print(Back.BLUE + str(board[j][i]), end = "")       
     if i == 2:    # Убераем лишнее подчёркивание
       print('\n')    # Делаем отступ для красоты
       break
     # поставить разделители строк
-    print("\n", "---------")
+    print("\n---------")
 
 def ask_and_make_move(player, board):
     x, y = ask_move(player, board)
@@ -39,19 +41,19 @@ def ask_move(player, board):
         return int(x), int(y)
         break
       else:
-        print('Некорректные координаты.')
+        print(Style.BRIGHT + Fore.RED + 'Некорректные координаты.')
     else:
-      print('Некорректные координаты.')
+      print(Style.BRIGHT + Fore.RED + 'Некорректные координаты.')
 
 def make_move(player, board, x, y):
   # Проверяем, свободно ли место
   if board[x][y] == " ":
     # если свободно, записать значение игрока (Х или 0) в ячейку
     board[x][y] = player
-    print('Ход выполнен')
+    print(Style.BRIGHT + Fore.GREEN + 'Ход выполнен.')
     print('\n')
   else:
-    print("Ячейка занята. Повторите ход.")
+    print(Style.BRIGHT + Fore.RED + "Ячейка занята. Повторите ход.")
     print('\n')
     ask_and_make_move(player, board)    # Повтор запроса
 
@@ -86,7 +88,7 @@ def tic_tac_toe():
             # проверить, выиграл ли игрок
             if check_win(player, board):
                 draw_board(board)
-                print(f"Игрок {player}, вы выиграли!")
+                print(Style.BRIGHT + Back.RED + Fore.GREEN + f"Игрок {player}, вы выиграли!")
                 break
             # проверить, произошла ли ничья
             tie_game = False
@@ -97,7 +99,7 @@ def tic_tac_toe():
             # если произошла ничья, завершить цикл
             if not tie_game:
                 draw_board(board)
-                print('Ничья!')
+                print(Style.BRIGHT + Back.RED + Fore.GREEN + 'Ничья!')
                 break
             # Переключение игрока
             player = "O" if player == "X" else "X"
@@ -109,9 +111,8 @@ def tic_tac_toe():
           if restart.lower() == "n" or restart.lower() == "y":
             break
           else:
-            print('Некорректный ответ')
+            print(Style.BRIGHT + Fore.GREEN + 'Некорректный ответ.')
         if restart.lower() == "n":
           break
-
 
 tic_tac_toe()
