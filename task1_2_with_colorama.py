@@ -8,18 +8,21 @@ def draw_board(board):
   # запустить двойной цикл, рисующий карту "поячеечно"
   for i in range(3):
     for j in range(3):
+      # Формат вывода ноликов
       if board[j][i] == 'O':
         print(Style.BRIGHT + Back.BLUE + Fore.GREEN + str(board[j][i]), end = "")
         if j != 2:
           print('', end = " | ")
+      # Формат вывода крестиков
       elif board[j][i] == 'X':
-        print(Style.BRIGHT + Back.BLUE + Fore.MAGENTA + str(board[j][i]), end = "")
+        print(Style.BRIGHT + Back.YELLOW + Fore.MAGENTA + str(board[j][i]), end = "")
         if j != 2:  
           print('', end = " | ")
+      # Формат вывода пустых клеток
       elif  j != 2:
-        print(Back.BLUE + str(board[j][i]), end = " | ")
+        print(Back.WHITE + str(board[j][i]), end = " | ")
       else:
-        print(Back.BLUE + str(board[j][i]), end = "")       
+        print(Back.WHITE + str(board[j][i]), end = "")       
     if i == 2:    # Убераем лишнее подчёркивание
       print('\n')    # Делаем отступ для красоты
       break
