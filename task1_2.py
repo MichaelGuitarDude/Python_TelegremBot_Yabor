@@ -14,7 +14,7 @@ def draw_board(board):
 def ask_and_make_move(player, board):
     x, y = ask_move(player, board)
     # координаты x, y взять из функции ask_move(player, board)
-    make_move(player, board, x, y)    # "Полу-воидная" функция
+    make_move(player, board, x, y)
 
 def ask_move(player, board):
   while True:
@@ -59,6 +59,20 @@ def check_win(player, board):
         return True
     return False
 
+def check_the_tie_game(board):
+    # проверить, произошла ли ничья
+    tie_game = False
+    for row in board:
+        for cell in row:
+            if cell == " ":
+                tie_game = True
+    # если произошла ничья, завершить цикл
+    if not tie_game:
+        draw_board(board)
+        print('Ничья!')
+    return tie_game
+
+
 def tic_tac_toe():
     # задать бесконечненый цикл, который проводит игры
     while True:
@@ -75,16 +89,8 @@ def tic_tac_toe():
                 draw_board(board)
                 print(f"Игрок {player}, вы выиграли!")
                 break
-            # проверить, произошла ли ничья
-            tie_game = False
-            for row in board:
-                for cell in row:
-                    if cell == " ":
-                        tie_game = True
-            # если произошла ничья, завершить цикл
-            if not tie_game:
-                draw_board(board)
-                print('Ничья!')
+            # Проверка на ничью
+            if not check_the_tie_game(board):
                 break
             # Переключение игрока
             player = "O" if player == "X" else "X"
@@ -102,4 +108,3 @@ def tic_tac_toe():
 
 
 tic_tac_toe()
-
