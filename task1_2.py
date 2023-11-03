@@ -65,8 +65,7 @@ def check_the_tie_game(board):
     for row in board:
         for cell in row:
             if cell == " ":
-                tie_game = True
-    # если произошла ничья, завершить цикл
+                tie_game = True 
     if not tie_game:
         draw_board(board)
         print('Ничья!')
@@ -89,7 +88,7 @@ def tic_tac_toe():
                 draw_board(board)
                 print(f"Игрок {player}, вы выиграли!")
                 break
-            # Проверка на ничью
+            # Проверка на ничью, если произошла ничья, завершить цикл
             if not check_the_tie_game(board):
                 break
             # Переключение игрока
