@@ -5,9 +5,14 @@ init(autoreset=True)
 
 
 def build_note(note_text, note_name):
-    with open(f"{note_name}.txt", "w", encoding="utf-8") as file:
-        file.write(note_text)
-    print(Style.BRIGHT + Fore.GREEN + f"Заметка {note_name} создана.")
+    while True:
+        try:
+            with open(f"{note_name}.txt", "x", encoding="utf-8") as file:
+                file.write(note_text)
+            print(Style.BRIGHT + Fore.GREEN + f"Заметка {note_name} создана.")
+            break
+        except:
+            note_name = input('Файл уже существует! Введите название повторно: ')
 
 
 def create_note(note_name):
