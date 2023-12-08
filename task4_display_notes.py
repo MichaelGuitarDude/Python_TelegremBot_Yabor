@@ -25,14 +25,14 @@ def create_note(note_name):
 
 # 2. Чтение заметки
 def read_note(note_name):
-    if isfile(f"{note_name}.txt"):  # проверяем, существует ли файл
+    if isfile(f"{note_name}.txt"):    # проверяем, существует ли файл
         try:
             with open(f"{note_name}.txt", encoding="utf-8") as file:
                 note_text = file.read()
         # Добавлена возможность чтения файлов из "блокнота" Windows
         except:
             with open(f"{note_name}.txt", encoding="cp1251") as file:
-                note_text = file.read()            
+                note_text = file.read()
         print(Style.BRIGHT + Fore.GREEN + f'Текст заметки: {note_text}')
     else: 
         print(Fore.RED + 'Заметка не найдена.')
@@ -72,8 +72,22 @@ def delete_note(note_name):
         print(Fore.RED + 'Заметка не найдена.')
     
 
+# Подсчёт количества символов в файле
+def file_sise(note_name):  
+    try:
+        with open(note_name, encoding="utf-8") as file:
+            return len(file.read())
+    # Добавлена возможность чтения файлов из "блокнота" Windows
+    except:
+        with open(note_name, encoding="cp1251") as file:
+            return len(file.read())
+
+
+
+# Вывод списка заметок
 def display_notes():
     notes = [note for note in listdir() if note.endswith(".txt")]
+    notes.sort(key=file_sise)    # Сортировка по длине заметок
     if notes == []:
         print(Style.BRIGHT + Fore.CYAN + 'Текстовые файлы отсутствуют.')
     else:
