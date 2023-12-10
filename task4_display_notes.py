@@ -1,8 +1,18 @@
-from os.path import isfile
+from os.path import isfile, splitext
 from os import remove, listdir
-from colorama import init, Fore, Style  # добавляем колораму, дабы текст в консоли был читабельнее
+from colorama import init, Fore, Style    # добавляем колораму, дабы текст в консоли был читабельнее
 init(autoreset=True)
 
+
+# Добавлена возможность чтения файлов из "блокнота" Windows (cp1251)
+def encod(note_name):
+    try:
+        with open(f"{note_name}.txt", encoding="utf-8") as file:
+            note_text = file.read()    
+    except:
+        with open(f"{note_name}.txt", encoding="cp1251") as file:
+            note_text = file.read()
+    return note_text
 
 
 def build_note(note_text, note_name):
@@ -26,14 +36,7 @@ def create_note(note_name):
 # 2. Чтение заметки
 def read_note(note_name):
     if isfile(f"{note_name}.txt"):    # проверяем, существует ли файл
-        try:
-            with open(f"{note_name}.txt", encoding="utf-8") as file:
-                note_text = file.read()
-        # Добавлена возможность чтения файлов из "блокнота" Windows
-        except:
-            with open(f"{note_name}.txt", encoding="cp1251") as file:
-                note_text = file.read()
-        print(Style.BRIGHT + Fore.GREEN + f'Текст заметки: {note_text}')
+        print(Style.BRIGHT + Fore.GREEN + f'Текст заметки: {encod(note_name)}')
     else: 
         print(Fore.RED + 'Заметка не найдена.')
 
@@ -74,14 +77,7 @@ def delete_note(note_name):
 
 # Подсчёт количества символов в файле
 def file_sise(note_name):  
-    try:
-        with open(note_name, encoding="utf-8") as file:
-            return len(file.read())
-    # Добавлена возможность чтения файлов из "блокнота" Windows
-    except:
-        with open(note_name, encoding="cp1251") as file:
-            return len(file.read())
-
+    return len(encod(splitext(note_name)[0]))
 
 
 # Вывод списка заметок
@@ -93,6 +89,7 @@ def display_notes():
     else:
         notes = '\n '.join(notes)
         print(Style.BRIGHT + Fore.GREEN + '\nСписок текстовых файлов: \n', notes)
+
 
 
 # Основной код
@@ -116,13 +113,10 @@ def main():
 Если хотите выйти, введите произвольные символы или пустоту: ').strip()
 
         if key == '1' or key == '2' or key == '3' or key == '4':
-            print(Style.BRIGHT + Fore.CYAN + f'Выбрана операция: {menu[key]}\n')
+            print(Style.BRIGHT + Fore.CYAN + f'Выбрана операция: {menu[key]}')
             note_name = input("Введите название заметки: ")
-        elif key =='5':
-            display_notes()
-        else:
-            print(Style.BRIGHT + Fore.CYAN + 'Работа программы завершена.\n')
-            break
+        elif key == '5':
+            print(Style.BRIGHT + Fore.CYAN + f'Выбрана операция: {menu[key]}')
 
         # Вызов соответствующей операции или завершение программы
         if key == '1':
@@ -132,7 +126,13 @@ def main():
         elif key == '3':
             edit_note(note_name)
         elif key == '4':
-            delete_note(note_name)
+            delete_note(note_name)            
+        elif key == '5':
+            display_notes()
+        else:
+            print(Style.BRIGHT + Fore.CYAN + 'Работа программы завершена.\n')
+            break
+
 
 
 main()
