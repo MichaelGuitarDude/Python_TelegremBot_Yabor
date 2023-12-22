@@ -36,7 +36,7 @@ def ask_and_make_move(player, board):
 
 def ask_move(player, board):
   while True:
-    coord_string = input(f"Игрок {player}, введите координаты x, y  (от '0 0' до '2 2'): ").strip()
+    coord_string = input(f"Игрок {player}, введите координаты столбца X и строки Y (от '0 0' до '2 2'): ").strip()
     # Отсеиваем любые некорректные данные (любую абаракадабру)
     if len(coord_string) == 3 and (coord_string[0] and coord_string[2]).isnumeric() and coord_string.find(' ') == 1:
       if 0 <= int(coord_string[0]) <= 2 and 0 <= int(coord_string[2]) <= 2:
