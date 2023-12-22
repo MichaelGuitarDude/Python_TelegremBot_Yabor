@@ -91,22 +91,16 @@ def main():
         key = input('\nВведите ключ операции. \
 Если хотите выйти, введите произвольные символы или пустоту: ').strip()
 
-        if key == '1' or key == '2' or key == '3' or key == '4':
-            print(Style.BRIGHT + Fore.CYAN + f'Выбрана операция: {menu[key]}\n')
+        # Вызов соответствующей операции или завершение программы        
+        operation = menu.get(key)
+        if operation:
+            print(Style.BRIGHT + Fore.CYAN + f'Выбрана операция: {operation}\n')
             note_name = input("Введите название заметки: ")
+            globals()[operation](note_name)
         else:
             print(Style.BRIGHT + Fore.CYAN + 'Работа программы завершена.\n')
             break
 
-        # Вызов соответствующей операции или завершение программы
-        if key == '1':
-            create_note(note_name)
-        elif key == '2':
-            read_note(note_name)
-        elif key == '3':
-            edit_note(note_name)
-        elif key == '4':
-            delete_note(note_name)
 
 
 main()
