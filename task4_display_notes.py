@@ -114,11 +114,11 @@ def main():
 
         # Вызов соответствующей операции или завершение программы        
         operation = menu.get(key)
-        if None != operation != 'display_notes':
+        if None != operation != 'display_notes':    # Обработка операций с 1-ой по 4-ую
             print(Style.BRIGHT + Fore.CYAN + f'Выбрана операция: {operation}\n')
             note_name = input("Введите название заметки: ")
             globals()[operation](note_name)
-        elif operation == 'display_notes':
+        elif operation == 'display_notes':    # Обработка 5-ой операции
             display_notes()
         else:
             print(Style.BRIGHT + Fore.CYAN + 'Работа программы завершена.\n')
