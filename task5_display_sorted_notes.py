@@ -35,9 +35,9 @@ def create_note(note_name):
 
 # 2. Чтение заметки
 def read_note(note_name):
-    if isfile(f"{note_name}.txt"):    # проверяем, существует ли файл
+    try:
         print(Style.BRIGHT + Fore.GREEN + f'Текст заметки: {encod(note_name)}')
-    else: 
+    except:
         print(Fore.RED + 'Заметка не найдена.')
 
 
