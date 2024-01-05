@@ -1,3 +1,9 @@
+# Комментарий к заданию: блоки "try-except" добавлены только к функциям "read_note" и "delete_note"
+# В функциях "edit_note", "display_notes" и "display_sorted_notes" блоки "try-except" не нужны, 
+# по этому не стал добавлять.
+# Остальные блоки "try-except" были добавленны ещё в предыдущих версиях программы
+
+
 from os.path import isfile, splitext
 from os import remove, listdir
 from colorama import init, Fore, Style    # добавляем колораму, дабы текст в консоли был читабельнее
@@ -62,10 +68,11 @@ def edit_note(note_name):
 # 4. Удаление заметки
 def delete_note(note_name):    
     try:
-        thirst_for_deletion = input(
-            "\nВы действительно хотите удалить файл?\n"
-            "Если да, введите латинскую 'y', если нет - то произвольные символы: "
-            )
+        if isfile(f"{note_name}.txt"):  # проверяем, существует ли файл
+            thirst_for_deletion = input(
+                "\nВы действительно хотите удалить файл?\n"
+                "Если да, введите латинскую 'y', если нет - то произвольные символы: "
+                )
         if thirst_for_deletion == 'y':
             remove(f"{note_name}.txt")
             print(Style.BRIGHT + Fore.RED + 'Заметка удалена!')
