@@ -17,7 +17,7 @@ updater = Updater(token=secrets.access_token)
 # Создать обработчик для создания заметок create_handler
 def create_note_handler(update, context):
     try:
-        # Получить текст заметки из сообщения пользователя
+        # Получить текст заметки из сообщения пользователя после команды /create
         note_text = update.message.text[8:]
         # Получить название заметки из номера сообщения пользователя
         note_name = str(update.message.message_id) + '_' + str(update.message.text[8:])
@@ -31,6 +31,27 @@ def create_note_handler(update, context):
 
 # Добавить функцию create_note_handler как CommandHandler для команды /create
 updater.dispatcher.add_handler(CommandHandler('create', create_note_handler))
+
+
+# Обработчик запросов на чтение заметок
+def read_note_handler(update, context):
+    # Получить имя заметки из сообщения пользователя после команды /read
+    note_name = update.message.text[6:]
+    # Отправить текст заметки
+    context.bot.send_message(chat_id=update.message.chat_id, text=f'Текст заметки: {encod(note_name)}')
+
+updater.dispatcher.add_handler(CommandHandler('read', read_note_handler))
+
+
+def display_notes_handler(update, context):
+    notes = [note for note in listdir() if note.endswith(".txt")]
+    if notes == []:
+        context.bot.send_message(chat_id=update.message.chat_id, text='Текстовые файлы отсутствуют.')
+    else:
+        notes = '\n '.join(notes)
+        context.bot.send_message(chat_id=update.message.chat_id, text=f'Список текстовых файлов: \n{str(notes)}')
+
+updater.dispatcher.add_handler(CommandHandler('disp', display_notes_handler))
 
 updater.start_polling()
 
